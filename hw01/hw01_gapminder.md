@@ -38,3 +38,10 @@ plot(lifeExp ~ log(gdpPercap), gapminder)
 ```
 
 ![](hw01_gapminder_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+summary(gapminder$pop)
+```
+
+    ##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+    ## 6.001e+04 2.794e+06 7.024e+06 2.960e+07 1.959e+07 1.319e+09

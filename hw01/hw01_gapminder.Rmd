@@ -16,4 +16,7 @@ str(gapminder)
 ```{r}
 plot(lifeExp ~ log(gdpPercap), gapminder)
 ```
+```{r}
+summary(gapminder$pop)
+```
 
