@@ -1,0 +1,44 @@
+---
+title: "Gapminder exploration"
+output: ioslides_presentation
+---
+
+# An overview of Gapminder
+```{r warning=FALSE, include=FALSE}
+library(gapminder)
+library(tidyverse)
+```
+
+## Have a look at the structure of gapminder
+```{r, echo=FALSE}
+str(gapminder)
+```
+
+## The first several rows of Gapminder
+```{r, echo=FALSE}
+head(gapminder)
+```
+
+## The summary of life expectancy
+```{r, echo=FALSE}
+summary(gapminder$lifeExp)
+```
+
+
+# Graphics
+## How life expectancy is distributed across different continents
+```{r, echo=FALSE}
+boxplot(gapminder$lifeExp ~ gapminder$continent)
+```
+
+## The relationship between life expectancy and GPD per capita
+```{r, echo=FALSE}
+plot(lifeExp ~ gdpPercap, gapminder)
+```
+
+## GPD per capita of Vietnam over years
+```{r, echo=FALSE}
+Vietnam <-gapminder[which(gapminder$country == "Vietnam"),]
+plot(Vietnam$gdpPercap ~ Vietnam$year, type="b")
+```
+
