@@ -1,22 +1,44 @@
 ---
-title: "Untitled"
+title: "Gapminder exploration"
 output: github_document
 ---
-
-#Explore gapminder
+## An overview of Gapminder
+### Loading packages
 ```{r}
 library(gapminder)
 library(tidyverse)
 ```
-## Have a look at the structure of gapminder
+
+### Have a look at the structure of gapminder
 ```{r}
 str(gapminder)
 ```
 
+### The first several rows of Gapminder
 ```{r}
-plot(lifeExp ~ log(gdpPercap), gapminder)
+head(gapminder)
 ```
+
+### The summary of life expectancy
 ```{r}
-summary(gapminder$pop)
+summary(gapminder$lifeExp)
+```
+
+
+## Graphics
+### How life expectancy is distributed across different continents
+```{r}
+boxplot(gapminder$lifeExp ~ gapminder$continent)
+```
+
+### The relationship between life expectancy and GPD per capita
+```{r}
+plot(lifeExp ~ gdpPercap, gapminder)
+```
+
+### GPD per capita of Vietnam over years
+```{r}
+Vietnam <-gapminder[which(gapminder$country == "Vietnam"),] #get a subset of gapminder where the country is Vietnam
+plot(Vietnam$gdpPercap ~ Vietnam$year, type="b")
 ```
 
