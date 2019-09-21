@@ -1,0 +1,9 @@
+---
+title: "Assignment 02: Explore Gapminder and use dplyr"
+output: github_document
+---
+```{r include=FALSE}
+library(gapminder)
+library(tidyverse)
+```
+
