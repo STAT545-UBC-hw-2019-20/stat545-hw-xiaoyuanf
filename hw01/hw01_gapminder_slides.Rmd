@@ -1,6 +1,6 @@
 ---
 title: "Gapminder exploration"
-output: ioslides_presentation
+output: ioslides
 ---
 
 # An overview of Gapminder
