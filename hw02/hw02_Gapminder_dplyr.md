@@ -4,6 +4,7 @@ output:
   html_document:
     keep_md: true
 ---
+<!--To run the code but show nothing-->
 
 
 ## Exercise 1: Basic __dplyr__
@@ -60,7 +61,8 @@ Filter gapminder to all entries that have experienced a drop in life expectancy.
 
 ```r
 gapminder %>% 
-  mutate(lifeIncrease = lifeExp - lag(lifeExp)) %>% 
+  arrange(country, year) %>%
+  mutate(lifeIncrease = lifeExp - lag(lifeExp)) %>% # lag(lifeExp) finds the previous values of lifeExp
   filter(lifeIncrease < 0, year != 1952)#exclude the first entry of each country, where the lifeIncrease is the difference between two countries
 ```
 
@@ -118,8 +120,8 @@ Produce a scatterplot of Canada’s life expectancy vs. GDP per capita using ggp
 ```r
 gapminder %>% 
   filter(country == "Canada") %>% 
-  ggplot() +
-  geom_point(aes(lifeExp, log(gdpPercap)))
+  ggplot(aes(lifeExp, log(gdpPercap))) +
+  geom_point()
 ```
 
 ![](hw02_Gapminder_dplyr_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
@@ -134,6 +136,93 @@ Pick one categorical variable and one quantitative variable to explore. Answer t
 - What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
 
 - Feel free to use summary stats, tables, figures.
+
+I picked one categorical variable __country__ and one quantatative variable __pop__.
+
+### country
+
+The possible values of __country__:
+
+```r
+gapminder %>% 
+  distinct(country)
+```
+
+```
+## # A tibble: 142 x 1
+##    country    
+##    <fct>      
+##  1 Afghanistan
+##  2 Albania    
+##  3 Algeria    
+##  4 Angola     
+##  5 Argentina  
+##  6 Australia  
+##  7 Austria    
+##  8 Bahrain    
+##  9 Bangladesh 
+## 10 Belgium    
+## # … with 132 more rows
+```
+
+The count of each possible value of __country__
+
+```r
+gapminder %>% 
+  group_by(country) %>% 
+  count()
+```
+
+```
+## # A tibble: 142 x 2
+## # Groups:   country [142]
+##    country         n
+##    <fct>       <int>
+##  1 Afghanistan    12
+##  2 Albania        12
+##  3 Algeria        12
+##  4 Angola         12
+##  5 Argentina      12
+##  6 Australia      12
+##  7 Austria        12
+##  8 Bahrain        12
+##  9 Bangladesh     12
+## 10 Belgium        12
+## # … with 132 more rows
+```
+
+### pop
+
+The range of __pop__
+
+```r
+range(gapminder$pop)
+```
+
+```
+## [1]      60011 1318683096
+```
+
+The spread of __pop__:
+
+```r
+summary(gapminder$pop)
+```
+
+```
+##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+## 6.001e+04 2.794e+06 7.024e+06 2.960e+07 1.959e+07 1.319e+09
+```
+
+The distribution of __pop__:
+
+```r
+ggplot(gapminder, aes(pop/1000000))+
+  geom_histogram(binwidth = 50)
+```
+
+![](hw02_Gapminder_dplyr_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+The distribution of __pop__ is very right skewed. Most values are below 150 million, while a few outliers are larger than 1 billion.
 
 ## Exercise 3: Explore various plot types
 

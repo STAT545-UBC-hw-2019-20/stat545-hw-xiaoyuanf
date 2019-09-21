@@ -4,6 +4,7 @@ output:
   html_document:
     keep_md: true
 ---
+<!--To run the code but show nothing-->
 ```{r include=FALSE}
 library(gapminder)
 library(tidyverse)
@@ -36,7 +37,8 @@ Filter gapminder to all entries that have experienced a drop in life expectancy.
 
 ```{r}
 gapminder %>% 
-  mutate(lifeIncrease = lifeExp - lag(lifeExp)) %>% 
+  arrange(country, year) %>%
+  mutate(lifeIncrease = lifeExp - lag(lifeExp)) %>% # lag(lifeExp) finds the previous values of lifeExp
   filter(lifeIncrease < 0, year != 1952)#exclude the first entry of each country, where the lifeIncrease is the difference between two countries
 ```
 
@@ -57,8 +59,8 @@ Produce a scatterplot of Canada’s life expectancy vs. GDP per capita using ggp
 ```{r}
 gapminder %>% 
   filter(country == "Canada") %>% 
-  ggplot() +
-  geom_point(aes(lifeExp, log(gdpPercap)))
+  ggplot(aes(lifeExp, log(gdpPercap))) +
+  geom_point()
 ```
 
 
@@ -71,6 +73,42 @@ Pick one categorical variable and one quantitative variable to explore. Answer t
 - What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
 
 - Feel free to use summary stats, tables, figures.
+
+I picked one categorical variable __country__ and one quantatative variable __pop__.
+
+### country
+
+The possible values of __country__:
+```{r}
+gapminder %>% 
+  distinct(country)
+```
+
+The count of each possible value of __country__
+```{r}
+gapminder %>% 
+  group_by(country) %>% 
+  count()
+```
+
+### pop
+
+The range of __pop__
+```{r}
+range(gapminder$pop)
+```
+
+The spread of __pop__:
+```{r}
+summary(gapminder$pop)
+```
+
+The distribution of __pop__:
+```{r}
+ggplot(gapminder, aes(pop/1000000))+
+  geom_histogram(binwidth = 50)
+```
+The distribution of __pop__ is very right skewed. Most values are below 150 million, while a few outliers are larger than 1 billion.
 
 ## Exercise 3: Explore various plot types
 
