@@ -8,6 +8,7 @@ output:
 ```{r include=FALSE}
 library(gapminder)
 library(tidyverse)
+library(DT)
 ```
 
 ## Exercise 1: Basic __dplyr__
@@ -39,7 +40,8 @@ Filter gapminder to all entries that have experienced a drop in life expectancy.
 gapminder %>% 
   arrange(country, year) %>%
   mutate(lifeIncrease = lifeExp - lag(lifeExp)) %>% # lag(lifeExp) finds the previous values of lifeExp
-  filter(lifeIncrease < 0, year != 1952)#exclude the first entry of each country, where the lifeIncrease is the difference between two countries
+  filter(lifeIncrease < 0, year != 1952) %>% #exclude the first entry of each country, where the lifeIncrease is the difference between two countries 
+  datatable()
 ```
 
 ### 1.4 
@@ -49,7 +51,8 @@ Filter gapminder so that it shows the max GDP per capita experienced by each cou
 gapminder %>% 
   group_by(country) %>% 
   mutate(maxgpdPercap = max(gdpPercap)) %>% 
-  filter(gdpPercap == maxgpdPercap)
+  filter(gdpPercap == maxgpdPercap) %>% 
+  datatable()
 ```
 
 ### 1.5
@@ -72,8 +75,6 @@ Pick one categorical variable and one quantitative variable to explore. Answer t
 
 - What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
 
-- Feel free to use summary stats, tables, figures.
-
 I picked one categorical variable __country__ and one quantatative variable __pop__.
 
 ### country
@@ -81,19 +82,21 @@ I picked one categorical variable __country__ and one quantatative variable __po
 The possible values of __country__:
 ```{r}
 gapminder %>% 
-  distinct(country)
+  distinct(country) %>% 
+  datatable()
 ```
 
 The count of each possible value of __country__
 ```{r}
 gapminder %>% 
   group_by(country) %>% 
-  count()
+  count() %>% 
+  datatable()
 ```
 
 ### pop
 
-The range of __pop__
+The range of __pop__:
 ```{r}
 range(gapminder$pop)
 ```
@@ -108,14 +111,28 @@ The distribution of __pop__:
 ggplot(gapminder, aes(pop/1000000))+
   geom_histogram(binwidth = 50)
 ```
+
 The distribution of __pop__ is very right skewed. Most values are below 150 million, while a few outliers are larger than 1 billion.
 
 ## Exercise 3: Explore various plot types
-
-Make two plots that have some value to them. That is, plots that someone might actually consider making for an analysis. Just don’t make the same plots we made in class – feel free to use a data set from the datasets R package if you wish.
 
 - A scatterplot of two quantitative variables.
 
 - One other plot besides a scatterplot.
 
-You don’t have to use all the data in every plot! It’s fine to filter down to one country or a small handful of countries.
+### Scatterplot
+For this exercise, I used __mtcars__. I made a scatterplot of __mpg__(Miles/(US) gallon) and __wt__(Weight (1000 lbs)).
+The plot shows a negative relationship between the fuel economy and the weight.
+```{r}
+cyl_number <- as.character(mtcars$cyl) #Change the type of cyl into character because there are only three discrete values.
+ggplot(mtcars, aes(mpg, wt))+
+  geom_point(aes(color= cyl_number))
+```
+
+### Boxplot
+I made a boxplot showing the distribution of fuel economy(mpg) of cars with different number of cylinders.
+```{r}
+ggplot(mtcars, aes(cyl_number,mpg))+
+  geom_boxplot()
+```
+
