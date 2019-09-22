@@ -1,8 +1,6 @@
 ---
 title: "Assignment 02: Explore Gapminder and use dplyr"
-output: 
-  html_document:
-    keep_md: true
+output: github_document
 ---
 <!--To run the code but show nothing-->
 ```{r include=FALSE}
@@ -40,8 +38,7 @@ Filter gapminder to all entries that have experienced a drop in life expectancy.
 gapminder %>% 
   arrange(country, year) %>%
   mutate(lifeIncrease = lifeExp - lag(lifeExp)) %>% # lag(lifeExp) finds the previous values of lifeExp
-  filter(lifeIncrease < 0, year != 1952) %>% #exclude the first entry of each country, where the lifeIncrease is the difference between two countries 
-  datatable()
+  filter(lifeIncrease < 0, year != 1952)#exclude the first entry of each country, where the lifeIncrease is the difference between two countries 
 ```
 
 ### 1.4 
@@ -51,8 +48,7 @@ Filter gapminder so that it shows the max GDP per capita experienced by each cou
 gapminder %>% 
   group_by(country) %>% 
   mutate(maxgpdPercap = max(gdpPercap)) %>% 
-  filter(gdpPercap == maxgpdPercap) %>% 
-  datatable()
+  filter(gdpPercap == maxgpdPercap)
 ```
 
 ### 1.5
@@ -82,16 +78,14 @@ I picked one categorical variable __country__ and one quantatative variable __po
 The possible values of __country__:
 ```{r}
 gapminder %>% 
-  distinct(country) %>% 
-  datatable()
+  distinct(country)
 ```
 
 The count of each possible value of __country__
 ```{r}
 gapminder %>% 
   group_by(country) %>% 
-  count() %>% 
-  datatable()
+  count()
 ```
 
 ### pop
