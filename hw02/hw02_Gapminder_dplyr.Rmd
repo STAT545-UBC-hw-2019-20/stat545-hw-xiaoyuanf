@@ -41,6 +41,14 @@ gapminder %>%
   filter(lifeIncrease < 0, year != 1952)#exclude the first entry of each country, where the lifeIncrease is the difference between two countries 
 ```
 
+Another solution
+```{r}
+gapminder %>% 
+  arrange(country, year) %>%
+  group_by(country) %>% 
+  mutate(lifeIncrease = lifeExp - lag(lifeExp))
+```
+
 ### 1.4 
 
 Filter gapminder so that it shows the max GDP per capita experienced by each country. Hint: you might find the __max()__ function useful here.
