@@ -1,6 +1,8 @@
 ---
 title: "Assignment 02: Explore Gapminder and use dplyr"
-output: github_document
+output: 
+  html_document:
+    keep_md: true
 ---
 <!--To run the code but show nothing-->
 ```{r include=FALSE}

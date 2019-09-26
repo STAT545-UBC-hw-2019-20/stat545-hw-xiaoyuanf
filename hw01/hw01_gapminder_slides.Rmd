@@ -3,6 +3,16 @@ title: "Gapminder exploration"
 output: ioslides
 ---
 
+<!--
+title: "hw01_presentation"
+author: "Arlo"
+date: "9/11/2019"
+output:
+  beamer_presentation: default
+  ioslides_presentation: default
+always_allow_html: yes
+-->
+
 # An overview of Gapminder
 ```{r warning=FALSE, include=FALSE}
 library(gapminder)
