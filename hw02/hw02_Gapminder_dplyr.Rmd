@@ -9,6 +9,8 @@ output:
 library(gapminder)
 library(tidyverse)
 library(DT)
+library(knitr)
+library(kableExtra)
 ```
 
 ## Exercise 1: Basic __dplyr__
@@ -18,7 +20,8 @@ Use __filter()__ to subset the __gapminder__ data to three countries of your cho
 ```{r}
 gapminder %>% 
   filter(country == "Canada" | country == "Chile" | country == "Cambodia",
-         year < 1980 & year > 1969)
+         year < 1980 & year > 1969) %>% 
+  kable()
 ```
 
 

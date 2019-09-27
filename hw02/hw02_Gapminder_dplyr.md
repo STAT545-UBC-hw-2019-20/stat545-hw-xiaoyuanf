@@ -15,20 +15,72 @@ Use __filter()__ to subset the __gapminder__ data to three countries of your cho
 ```r
 gapminder %>% 
   filter(country == "Canada" | country == "Chile" | country == "Cambodia",
-         year < 1980 & year > 1969)
+         year < 1980 & year > 1969) %>% 
+  kable()
 ```
 
-```
-## # A tibble: 6 x 6
-##   country  continent  year lifeExp      pop gdpPercap
-##   <fct>    <fct>     <int>   <dbl>    <int>     <dbl>
-## 1 Cambodia Asia       1972    40.3  7450606      422.
-## 2 Cambodia Asia       1977    31.2  6978607      525.
-## 3 Canada   Americas   1972    72.9 22284500    18971.
-## 4 Canada   Americas   1977    74.2 23796400    22091.
-## 5 Chile    Americas   1972    63.4  9717524     5494.
-## 6 Chile    Americas   1977    67.1 10599793     4757.
-```
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> country </th>
+   <th style="text-align:left;"> continent </th>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> lifeExp </th>
+   <th style="text-align:right;"> pop </th>
+   <th style="text-align:right;"> gdpPercap </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Cambodia </td>
+   <td style="text-align:left;"> Asia </td>
+   <td style="text-align:right;"> 1972 </td>
+   <td style="text-align:right;"> 40.317 </td>
+   <td style="text-align:right;"> 7450606 </td>
+   <td style="text-align:right;"> 421.6240 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Cambodia </td>
+   <td style="text-align:left;"> Asia </td>
+   <td style="text-align:right;"> 1977 </td>
+   <td style="text-align:right;"> 31.220 </td>
+   <td style="text-align:right;"> 6978607 </td>
+   <td style="text-align:right;"> 524.9722 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Canada </td>
+   <td style="text-align:left;"> Americas </td>
+   <td style="text-align:right;"> 1972 </td>
+   <td style="text-align:right;"> 72.880 </td>
+   <td style="text-align:right;"> 22284500 </td>
+   <td style="text-align:right;"> 18970.5709 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Canada </td>
+   <td style="text-align:left;"> Americas </td>
+   <td style="text-align:right;"> 1977 </td>
+   <td style="text-align:right;"> 74.210 </td>
+   <td style="text-align:right;"> 23796400 </td>
+   <td style="text-align:right;"> 22090.8831 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Chile </td>
+   <td style="text-align:left;"> Americas </td>
+   <td style="text-align:right;"> 1972 </td>
+   <td style="text-align:right;"> 63.441 </td>
+   <td style="text-align:right;"> 9717524 </td>
+   <td style="text-align:right;"> 5494.0244 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Chile </td>
+   <td style="text-align:left;"> Americas </td>
+   <td style="text-align:right;"> 1977 </td>
+   <td style="text-align:right;"> 67.052 </td>
+   <td style="text-align:right;"> 10599793 </td>
+   <td style="text-align:right;"> 4756.7638 </td>
+  </tr>
+</tbody>
+</table>
 
 
 ### 1.2 

@@ -374,16 +374,154 @@ summary {
 <p>Use <strong>filter()</strong> to subset the <strong>gapminder</strong> data to three countries of your choice in the 1970’s.</p>
 <pre class="r"><code>gapminder %&gt;% 
   filter(country == &quot;Canada&quot; | country == &quot;Chile&quot; | country == &quot;Cambodia&quot;,
-         year &lt; 1980 &amp; year &gt; 1969)</code></pre>
-<pre><code>## # A tibble: 6 x 6
-##   country  continent  year lifeExp      pop gdpPercap
-##   &lt;fct&gt;    &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
-## 1 Cambodia Asia       1972    40.3  7450606      422.
-## 2 Cambodia Asia       1977    31.2  6978607      525.
-## 3 Canada   Americas   1972    72.9 22284500    18971.
-## 4 Canada   Americas   1977    74.2 23796400    22091.
-## 5 Chile    Americas   1972    63.4  9717524     5494.
-## 6 Chile    Americas   1977    67.1 10599793     4757.</code></pre>
+         year &lt; 1980 &amp; year &gt; 1969) %&gt;% 
+  kable()</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+country
+</th>
+<th style="text-align:left;">
+continent
+</th>
+<th style="text-align:right;">
+year
+</th>
+<th style="text-align:right;">
+lifeExp
+</th>
+<th style="text-align:right;">
+pop
+</th>
+<th style="text-align:right;">
+gdpPercap
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Cambodia
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:right;">
+1972
+</td>
+<td style="text-align:right;">
+40.317
+</td>
+<td style="text-align:right;">
+7450606
+</td>
+<td style="text-align:right;">
+421.6240
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cambodia
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:right;">
+1977
+</td>
+<td style="text-align:right;">
+31.220
+</td>
+<td style="text-align:right;">
+6978607
+</td>
+<td style="text-align:right;">
+524.9722
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Canada
+</td>
+<td style="text-align:left;">
+Americas
+</td>
+<td style="text-align:right;">
+1972
+</td>
+<td style="text-align:right;">
+72.880
+</td>
+<td style="text-align:right;">
+22284500
+</td>
+<td style="text-align:right;">
+18970.5709
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Canada
+</td>
+<td style="text-align:left;">
+Americas
+</td>
+<td style="text-align:right;">
+1977
+</td>
+<td style="text-align:right;">
+74.210
+</td>
+<td style="text-align:right;">
+23796400
+</td>
+<td style="text-align:right;">
+22090.8831
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chile
+</td>
+<td style="text-align:left;">
+Americas
+</td>
+<td style="text-align:right;">
+1972
+</td>
+<td style="text-align:right;">
+63.441
+</td>
+<td style="text-align:right;">
+9717524
+</td>
+<td style="text-align:right;">
+5494.0244
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chile
+</td>
+<td style="text-align:left;">
+Americas
+</td>
+<td style="text-align:right;">
+1977
+</td>
+<td style="text-align:right;">
+67.052
+</td>
+<td style="text-align:right;">
+10599793
+</td>
+<td style="text-align:right;">
+4756.7638
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="section-1" class="section level3">
 <h3>1.2</h3>
