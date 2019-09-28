@@ -139,7 +139,7 @@ ggplot(mtcars, aes(mpg, wt))+
 ### Boxplot
 I made a boxplot showing the distribution of fuel economy(mpg) of cars with different number of cylinders.
 ```{r}
-ggplot(mtcars, aes(cyl_number,mpg))+
+ggplot(mtcars, aes(cyl_number,mpg, color=cyl_number))+
   geom_boxplot()
 ```
 
