@@ -7,5 +7,102 @@ output: html_document
 ```{r include=FALSE}
 library(gapminder)
 library(tidyverse)
+library(DT)
+library(scales)
+```
+## Task 1: Coutries with low life expectancy
+
+```{r}
+lifeExp_low<- gapminder %>% 
+  group_by(year) %>% 
+  mutate(life_mean = mean(lifeExp)) %>% # calculate the average life expectancy of every year
+  select(country, continent, year, lifeExp, life_mean) %>% 
+  filter(lifeExp<life_mean) %>% group_by(continent,year) # put records of the same continent in the same year together, easier for sanity checking
+lifeExp_low %>% datatable()
 ```
 
+This table shows records of countries whose life expectancy is lower than the average in that year. 
+
+```{r}
+nlow<-lifeExp_low %>% 
+  group_by(continent, year) %>% 
+  count()
+nlow %>% datatable()
+```
+
+
+This table shows the number of countries whose life expectancy is lower than the average in each continent for each year. 
+
+```{r,fig.width = 8, fig.height = 4}
+gapminder %>% 
+  group_by(year) %>% 
+  mutate(life_mean = mean(lifeExp)) %>% 
+  ggplot(aes(lifeExp))+
+  facet_wrap(~ continent)+
+  geom_histogram(aes(fill=lifeExp>life_mean))+
+  scale_fill_discrete("", labels=c("Lower than average lifeExp", "Higher than average lifeExp"))
+```
+
+This graph shows the proportion of records of countries with low life expectancy in each continent.
+
+```{r}
+nlow %>% 
+  ggplot(aes(year, n)) +
+  geom_line(aes(color=continent))
+```
+
+This graph shows the numbers of countries with low life expectancy in each continent over time.
+
+## Task 2: Weighted mean of life expectancy for different years
+
+```{r}
+gapminder %>%
+  group_by(year, continent) %>% 
+  mutate(w_life = weighted.mean(x=lifeExp, w=pop)) %>% # calculate the weighted mean for a subgroup of data
+  select(continent, year, w_life) %>% 
+  distinct() %>% datatable()
+```
+
+This table shows the weighted mean of life expectancy, weighting by population of each year in each continent.
+
+```{r, fig.width=8}
+gap_w_life<-gapminder %>%
+  group_by(year, continent) %>% 
+  mutate(w_life = weighted.mean(x=lifeExp, w=pop))
+gap_w_life %>% 
+  ggplot(aes(year, lifeExp, size=pop, fill=continent))+
+  geom_point(alpha=0.5, shape=21)+
+  facet_wrap(~ continent, nrow = 1)+
+  geom_line(aes(y=w_life,lty = 'Weighted lifeExp mean'), size=0.5)+ # set a fixed width of line
+  scale_size_area(labels=scales::comma_format())
+```
+
+This graph shows the life expectancy of each year in each continent. The size of the points is proportional to population. The line is the weighted mean of life expectancy, weighting by population of each year in each continent.
+
+## Task 3: Trend of life expectancy in each continent
+
+```{r}
+lifeExp_median <- gapminder %>% 
+  group_by(continent, year) %>% 
+  mutate(life_median = median(lifeExp)) %>% 
+  arrange(continent, year) %>% 
+  select(continent, year, life_median) %>% 
+  distinct()
+lifeExp_median %>% datatable()
+```
+
+This table shows the median life expectancy of each continent in each year.
+
+
+```{r, fig.width = 8, fig.height = 4}
+gapminder %>% 
+  ggplot(aes(year, lifeExp))+
+  geom_point()+
+  facet_wrap(~ continent, nrow = 1)+
+  geom_smooth()
+```
+
+This graph shows the trend of life expectancy in each continent. 
+- It shows in general, in each continent, the life expectancy has been growing. 
+- If trim the outliers, Africa is the only continent where the spread of life expectancy has been enlarging.
+- Americas and Asia have grown fast, while Europe and Oceania have been relatively high over time.
