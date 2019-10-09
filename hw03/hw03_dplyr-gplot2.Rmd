@@ -9,6 +9,8 @@ library(gapminder)
 library(tidyverse)
 library(DT)
 library(scales)
+library(knitr)
+library(kableExtra)
 ```
 ## Task 1: Coutries with low life expectancy
 
@@ -106,3 +108,29 @@ This graph shows the trend of life expectancy in each continent.
 - It shows in general, in each continent, the life expectancy has been growing. 
 - If trim the outliers, Africa is the only continent where the spread of life expectancy has been enlarging.
 - Americas and Asia have grown fast, while Europe and Oceania have been relatively high over time.
+
+## Optional Exercise
+
+Get table and figure side-by-side.
+
+```{r two-column, results='asis', echo=FALSE, out.extra='',fig.pos="left", fig.width=6,fig.height=5}
+library(knitr)
+cat("<table class='container'><tr>")
+cat("<td>")
+gapminder %>%
+  group_by(continent) %>% 
+  summarize(minimum = quantile(gdpPercap)[1], 
+            median = quantile(gdpPercap)[3],  
+            maximum = quantile(gdpPercap)[5]) %>% 
+  knitr::kable() %>% 
+  kable_styling(position = "left", full_width = F)
+cat("</td>")
+cat("<td>")
+gapminder %>% 
+  ggplot(aes(x = continent, y = gdpPercap)) +
+  geom_boxplot(aes(fill = continent)) +
+  labs(y = "GDP per capita") +
+  theme(plot.caption = element_text(hjust = 0.5))
+cat("</td>")
+cat("</tr></table>")
+```
