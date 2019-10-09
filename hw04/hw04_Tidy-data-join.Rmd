@@ -1,0 +1,101 @@
+---
+title: "hw04_Tidy-data-joins"
+author: "Margot"
+date: "08/10/2019"
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r, include=FALSE}
+library(tidyverse)
+library(gapminder)
+library(DT)
+```
+
+## Exercise 1: Univariate Data Reshaping
+
+### Option 1
+
+1. Make a tibble with one row per year, and columns for life expectancy for two or more countries.
+```{r}
+gap_uni <- gapminder %>% filter(country=="Canada" |country== "China") %>% 
+  select(country, year, lifeExp) %>% 
+  pivot_wider(id_cols = year,
+              names_from = country,
+              values_from = lifeExp)
+datatable(gap_uni)
+```
+
+2. Take advantage of this new data shape to scatterplot life expectancy for one country against that of another.
+
+```{r}
+ggplot(gap_uni, aes(Canada, China))+
+  geom_point()
+```
+
+3. Re-lengthen the data.
+
+```{r}
+gap_uni %>% pivot_longer(cols = c("Canada", "China"),
+                             names_to = "country",
+                             values_to = "lifeExp") %>% 
+  datatable()
+```
+
+## Exercise 2: Multivariate Data Reshaping
+
+### Option 1
+
+1. Make a tibble with one row per year, and columns for life expectancy and GDP per capita (or two other numeric variables) for two or more countries.
+
+```{r}
+gap_multi <- gapminder %>% filter(country=="Cambodia" | country=="Egypt") %>% 
+  select(year, country, lifeExp, gdpPercap) %>% 
+  pivot_wider(id_cols = year,
+              names_from = country,
+              values_from = c(lifeExp, gdpPercap))
+datatable(gap_multi)
+```
+
+2. Re-lengthen the data.
+
+```{r}
+gap_multi %>% pivot_longer(cols = -year,
+                           names_to = c(".value", "country"),
+                           names_sep = "_") %>% 
+  datatable()
+```
+
+## Exercise 3: Table Joins
+```{r, include=FALSE}
+guest <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/master/data/wedding/attend.csv")
+email <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/master/data/wedding/emails.csv")
+```
+
+3.1 For each guest in the guestlist (guest tibble), add a column for email address, which can be found in the email tibble.
+```{r}
+emails <- email %>% separate_rows(guest, sep = ", ") %>% # seperate a collapsed column into multiple rows. Notice the sep is one comma and one white space
+  mutate(name = guest) %>% 
+  select(name, email)
+emails
+```
+```{r}
+guest %>% 
+  left_join(emails, by="name") %>% 
+  datatable()
+```
+
+
+3.2 Who do we have emails for, yet are not on the guestlist?
+```{r}
+emails %>% anti_join(guest, by="name")
+```
+
+
+3.3 Make a guestlist that includes everyone we have emails for (in addition to those on the original guestlist).
+
+```{r}
+guest %>% full_join(emails, by="name") %>% 
+  datatable()
+```
+
