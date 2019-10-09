@@ -3,8 +3,9 @@ title: "hw04_Tidy-data-joins"
 author: "Margot"
 date: "08/10/2019"
 output:
-  html_document: default
-  pdf_document: default
+  html_document:
+    theme: paper
+    toc: TRUE
 ---
 ```{r, include=FALSE}
 library(tidyverse)
