@@ -7,7 +7,7 @@ Assignment |	Assignment Due Date
 [Assignment 01](https://stat545-ubc-hw-2019-20.github.io/stat545-hw-xiaoyuanf/hw01/hw01_gapminder_slides.html)	| September 17, 2019
 [Assignment 02](https://stat545-ubc-hw-2019-20.github.io/stat545-hw-xiaoyuanf/hw02/hw02_Gapminder_dplyr.html)	| September 24, 2019
 [Assignment 03](https://stat545-ubc-hw-2019-20.github.io/stat545-hw-xiaoyuanf/hw03/hw03_dplyr-gplot2.html)	| October 01, 2019
-Assignment 04	| October 08, 2019
+[Assignment 04](https://stat545-ubc-hw-2019-20.github.io/stat545-hw-xiaoyuanf/hw04/hw04_Tidy-data-join.html)	| October 08, 2019
 Assignment 05	| October 18, 2019
 
 
