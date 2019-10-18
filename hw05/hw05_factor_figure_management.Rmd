@@ -1,0 +1,143 @@
+---
+title: "HW05 Factor and figure management"
+author: "Margot"
+date: "17/10/2019"
+output: 
+  html_document:
+    theme: paper
+    toc: true
+    keep_md: true
+---
+```{r, include=FALSE}
+library(here)
+library(gapminder)
+library(tidyverse)
+library(forcats)
+library(knitr)
+```
+
+## Exercise 1: Explain the value of the here::here package
+- `here::here` makes it easier and safer to write the file paths in different operating systems.
+- It also makes it easier to manage sub-directories in a project. We can get data from other sub-directories and save output to other sub-directories.
+- It allows people to run your code on their machine and supports reproducibility.
+
+## Exercise 2: Factor management
+
+### 2.1 Drop factor / levels
+
+```{r}
+class(gapminder$continent)
+class(gapminder$country)
+```
+In `gapminder`, `country` and `continent` are factors.
+
+```{r}
+four_continent <- gapminder %>% filter(continent != "Oceania")
+nlevels(four_continent$continent)
+```
+
+```{r}
+continent_dropped <- four_continent %>% droplevels()
+nlevels(continent_dropped$continent)
+```
+
+There are 5 levels of `continent`. After applying `droplevels()`, there are 4 left.
+
+### 2.2 Reorder levels based on knowledge from data.
+
+```{r}
+df1 <-gapminder %>% 
+  filter(country %in% c("Afghanistan", "Cambodia",  "India", "Japan", "Mexico")) 
+df1 %>% arrange(country) %>% DT::datatable()
+```
+
+```{r}
+df1 %>% ggplot()+
+  geom_boxplot(aes(country, lifeExp))+
+  theme_bw()
+```
+
+In the original tibble, countries are ordered alphabetically.
+
+```{r}
+df2 <- df1 %>% arrange(fct_reorder(country, lifeExp, max, .desc =TRUE)) 
+DT::datatable(df2)
+```
+
+```{r}
+df2 %>% ggplot()+
+  geom_boxplot(aes(fct_reorder(country, lifeExp, max, .desc =TRUE), lifeExp))+
+  xlab("country")+
+  theme_bw()
+```
+
+In the reordered tibble, countries are ordered by the maximum of `lifeExp`, from the biggest to the smallest.
+
+## Exercise 3: File input/output (I/O)
+
+I use `df1`, a tibble I created in the last section for Exercise 3. First, I export it to disk.
+
+```{r}
+write_csv(df1, here::here("hw05", "df1.csv"))
+```
+
+Then reload `df1` back.
+
+```{r}
+my_data <- read_csv(here::here("hw05", "df1.csv"))
+```
+
+```{r}
+my_data %>% 
+  arrange(fct_relevel(country, "Mexico")) %>% 
+  DT::datatable()
+```
+
+After applying `relevel()`, Mexico became the first country in the table.
+
+## Exercise 4: Visualization design
+
+The original vis:
+
+```{r message=FALSE, warning=FALSE}
+p <- gapminder %>% # store image in p for storing in the exercise
+  group_by(year) %>% 
+  mutate(life_mean = mean(lifeExp)) %>% 
+  ggplot(aes(lifeExp))+
+  facet_wrap(~ continent)+
+  geom_histogram(aes(fill=lifeExp>life_mean))+
+  scale_fill_discrete("", labels=c("Lower than average lifeExp", "Higher than average lifeExp"))
+p
+```
+
+The new vis:
+
+```{r message=FALSE, warning=FALSE}
+gapminder %>% 
+  group_by(year) %>% 
+  mutate(life_mean = mean(lifeExp)) %>% 
+  mutate(continent=fct_reorder(continent, lifeExp, median)) %>% #order continents by median lifeExp
+  ggplot(aes(lifeExp))+
+  facet_wrap(~ continent)+
+  geom_histogram(aes(fill=lifeExp>life_mean))+
+  scale_fill_discrete("Legend", labels=c("Lower than average lifeExp", "Higher than average lifeExp")) +
+  ylab("Count of records of lower/higher life expectancy")+
+  xlab("Life expectancy")+
+  labs(title = "Life Expectancy in Different Continent")+
+  theme_bw()
+```
+
+### Things I did differently:
+- Add label, title, and legend to make the figure more informative. 
+- Remove background to reduce distraction. 
+- Reordered the continents to make the pattern more obvious.
+
+## Exercise 5: Writing figures to file
+
+I don't want to save the last image. So I use `plot=` to point out the image I want do save.
+
+```{r message=FALSE, warning=FALSE}
+ggsave(here("hw05", "life_exp.png"), plot=p, width = 7, height = 4)
+```
+
+Here is the [*Old Figure*](life_exp.png)
