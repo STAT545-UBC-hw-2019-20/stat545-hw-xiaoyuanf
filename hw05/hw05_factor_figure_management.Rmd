@@ -85,11 +85,12 @@ Then reload `df1` back.
 
 ```{r}
 my_data <- read_csv(here::here("hw05", "df1.csv"))
+str(my_data) #read_csv() doesn’t convert character vectors to factors
 ```
 
 ```{r}
 my_data %>% 
-  arrange(fct_relevel(country, "Mexico")) %>% 
+  arrange(fct_infreq(country)) %>%  # forcats works on factors (or character vectors)
   DT::datatable()
 ```
 
